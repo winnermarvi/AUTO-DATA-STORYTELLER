@@ -1,0 +1,6 @@
+Name,Age,Gender,Salary,City
+Alice,25,Female,50000,Mumbai
+Bob,30,Male,60000,Delhi
+Charlie,35,Male,,Bangalore
+Diana,,Female,70000,Mumbai
+Evan,28,,55000,Chennai
