@@ -54,3 +54,7 @@ def analyze_data(df):
 
 
     return report
+
+
+df = pd.read_csv('data/sample1.csv')
+print(analyze_data(df))
