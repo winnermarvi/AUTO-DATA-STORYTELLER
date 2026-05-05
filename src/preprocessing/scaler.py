@@ -6,7 +6,7 @@ def scaling(df):
 
     for i in numeric_cols:
 
-        if df[i].nunique() < 2 and sorted(df[i].unique()) == ['0','1']:
+        if df[i].nunique() <= 2:
             continue
 
         mean = df[i].mean()
