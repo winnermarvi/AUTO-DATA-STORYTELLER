@@ -53,6 +53,10 @@ def analyze_data(df):
     report["categorical_summary"] = categorical_summary
 
 
+    #Creating correlation matrix of df
+    report["correlation"] = df.select_dtypes(include=['number']).corr().to_dict()
+
+
     return report
 
 

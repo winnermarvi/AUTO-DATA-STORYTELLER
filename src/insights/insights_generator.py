@@ -61,4 +61,9 @@ def generate_insights(report):
                 insights.append(f"Most common value in {key} is {top}")
 
     
+    # Correlation between data set to find relation between columns
+
+    
+
+
     return insights
