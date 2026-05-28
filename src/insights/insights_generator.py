@@ -62,8 +62,23 @@ def generate_insights(report):
 
     
     # Correlation between data set to find relation between columns
-
+    cols = list(report['correlation'].keys())
     
+    for i in range(len(cols)):
+
+        for j in range(i+1,len(cols)):
+
+            col1 = cols[i]
+            col2 = cols[j]
+
+            corr_val = report['correlation'][col1][col2]
+
+            if corr_val > 0.70 :
+                insights.append(f"{col1} and {col2} shows strong positive relation")
+
+            elif corr_val < (-0.70) :
+                insights.append(f"{col1} and {col2} shows strong negative relation")
+            
 
 
     return insights
