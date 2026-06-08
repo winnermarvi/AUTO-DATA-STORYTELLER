@@ -41,13 +41,19 @@ def analyze_data(df):
 
     for i in categorical_cols:                #checks if mode is empty and handle error by replacing empty with none
         top_value = df[i].mode()
+        counts = df[i].value_counts()
+        
         if len(top_value) > 0:
             top = top_value[0]
+            top_counts = counts[top]
         else:
             top = None
+            top_counts = 0
+
 
         categorical_summary[i] = {"unique" : df[i].nunique(),
-                                  "top" : top
+                                  "top" : top,
+                                  "top_count" : top_counts
                                   }
         
     report["categorical_summary"] = categorical_summary

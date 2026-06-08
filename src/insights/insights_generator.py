@@ -60,6 +60,16 @@ def generate_insights(report):
             else:
                 insights.append(f"Most common value in {key} is {top}")
 
+                # Dominated values check in columns
+                dominance_perc = (int(report['categorical_summary'][key]['top_count'])/int(rows) ) * 100
+
+                if dominance_perc < 60:
+                    insights.append(f"Column {key} appears balanced")
+                elif dominance_perc >= 60 and dominance_perc <= 80:
+                    insights.append(f"Column {key} is moderately dominated")
+                elif dominance_perc > 80 :
+                    insights.append(f"Column {key} is highly dominated")
+
     
     # Correlation between data set to find relation between columns
     cols = list(report['correlation'].keys())
