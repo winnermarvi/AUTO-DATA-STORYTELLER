@@ -11,8 +11,9 @@ def generate_regression_insights(evaluation_results,best_model_info):
     insights.append(f"{best_model_info['best_model']} achieved the lowest RMSE of {best_model_info['best_rmse']}")
 
     #R2 insights
-    r2 = round(evaluation_results[best_model_info['best_model']]['r2'],2)
-    insights.append(f"The model explains approximately {r2 * 100}% of the variation in the target variable.")
+    r2 = evaluation_results[best_model_info['best_model']]['r2']
+    r2_percentage = round(r2*100,1)
+    insights.append(f"The model explains approximately {r2_percentage}% of the variation in the target variable.")
 
     #R2 interpretation
     if r2 >= 0.80:
@@ -29,21 +30,16 @@ def generate_regression_insights(evaluation_results,best_model_info):
 
 
     #comparison
-    camparision_sentence = f"{best_model_info['best_model']} outperformed "
-    model_names = []
+    comparison_models = []
 
     for key in evaluation_results:
+        if key != best_model_info['best_model']:
+            comparison_models.append(key)
 
-        if key is not best_model_info['best_model']:
+    comparison_sentence = (
+        f"{best_model_info['best_model']} outperformed "
+        f"{', '.join(comparison_models)} based on RMSE."
+    )
 
-            model_names.append(key)
-
-    for i in range(len(model_names)-1):
-        if i is not len(model_names)-1:
-            camparision_sentence += f"{model_names[i]}"
-        else :
-            camparision_sentence += f"and {model_names[i]}"
-
-    insights.append(camparision_sentence)
-
+    insights.append(comparison_sentence)
     return insights
