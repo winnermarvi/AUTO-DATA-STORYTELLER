@@ -8,7 +8,7 @@ def generate_regression_insights(evaluation_results,best_model_info):
     insights.append(f"{best_model_info['best_model']} was selected as the best performing model based on RMSE.")
 
     #RMSE score of best model
-    insights.append(f"{best_model_info['best_model']} achieved the lowest RMSE of {best_model_info['best_rmse']}")
+    insights.append(f"{best_model_info['best_model']} achieved the lowest RMSE of {best_model_info['best_rmse']}, indicating the smallest prediction error among all evaluated models.")
 
     #R2 insights
     r2 = evaluation_results[best_model_info['best_model']]['r2']
