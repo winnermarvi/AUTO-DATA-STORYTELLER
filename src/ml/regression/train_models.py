@@ -26,7 +26,7 @@ def train_random_forest(X_train,y_train):
 
     return model
 
-def train_model(X_train,y_train):
+def train_regression_models(X_train,y_train):
     
     linear_regression = train_linear_regression(X_train,y_train)
 
