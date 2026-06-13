@@ -4,11 +4,9 @@ from .outlier_handler import handle_outliers
 from .encoding import encode_data
 from .scaler import scaling
 
-df = pd.read_csv("data/sample1.csv")
-print("raw data:")
-print(df)
 
-def preprocess_data(df):
+
+def preprocess_data_pipeline(df):
     
     df = missing_handler(df)
 
@@ -20,6 +18,3 @@ def preprocess_data(df):
 
     return df
 
-clean_df = preprocess_data(df)
-print("clean data:")
-print(clean_df)

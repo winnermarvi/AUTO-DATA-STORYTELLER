@@ -17,6 +17,6 @@ def encode_data(df):
     categorical_cols = df.select_dtypes(exclude = ['number']).columns.to_list()
 
     #encoding function
-    df = pd.get_dummies(df, columns = categorical_cols)
+    df = pd.get_dummies(df, columns = categorical_cols, drop_first=True)
 
     return df
