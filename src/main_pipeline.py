@@ -8,20 +8,36 @@ import pandas as pd
 
 def main_pipeline(df,target_col):
 
+    print("Starting EDA...")
     report = analyze_data(df)
+    print("EDA Complete")
 
+    print("Generating EDA insights...")
     df_report = insight_pipeline(report)
+    print("EDA Insights Complete")
 
     target = df[target_col]
 
     features = df.drop(columns=[target_col])
 
-    processed_features = preprocess_data_pipeline(features)
+    print("Starting preprocessing...")
+    processed_df = preprocess_data_pipeline(features)
+    print("Preprocessing Complete")
 
-    processed_df = processed_features
     processed_df[target_col] = target
 
-    ml_report = ml_pipeline(processed_df,target_col)
+    #===================temporary===================================================================
+    print("Shape:", processed_df.shape)
+
+    print("Missing Values:", processed_df.isnull().sum().sum())
+
+    print("Non-Numeric Columns:",len(processed_df.select_dtypes(exclude=['number']).columns))
+
+    #=================================================================================================
+
+    print("Starting ML pipeline...")
+    ml_report = ml_pipeline(processed_df, target_col)
+    print("ML Pipeline Complete")
 
     return {
         "report": df_report['report'],

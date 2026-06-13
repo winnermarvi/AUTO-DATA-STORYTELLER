@@ -6,7 +6,6 @@
   "categorical_summary": ?     # stats for categorical columns
 }"""
 
-import pandas as pd
 
 def analyze_data(df):
     report = {}
@@ -65,6 +64,3 @@ def analyze_data(df):
 
     return report
 
-
-df = pd.read_csv('data/sample1.csv')
-print(analyze_data(df))
