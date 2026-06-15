@@ -52,8 +52,8 @@ def main_pipeline(df,target_col):
     }
 
 
-df = pd.read_csv('data/train.csv')
-target_col = "SalePrice"
+df = pd.read_csv('data/titanic.csv')
+target_col = "Survived"
 
 result = main_pipeline(df, target_col)
 
