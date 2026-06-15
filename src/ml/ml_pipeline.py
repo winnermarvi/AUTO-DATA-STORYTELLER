@@ -1,10 +1,20 @@
+from sklearn.model_selection import train_test_split
+from .select_best_model import select_best_model
 from .target_detector import detect_problem_type, get_features_target
-from .regression.train_regressoin_models import train_regression_models
-from .regression.evaluate_regression_models import evaluate_models
+
+# ================== Regression files ======================================
+
+from .regression.train_regression_models import train_regression_models
+from .regression.evaluate_regression_models import evaluate_regression_models
 from .regression.regression_insights import generate_regression_insights
 from .regression.regression_story import generate_regression_story
-from .select_best_model import select_best_model
-from sklearn.model_selection import train_test_split
+
+# ================== Classification files ======================================
+
+from .classification.train_classification_models import train_classification_models
+from .classification.evaluate_classification_models import evaluate_classification_models
+from .classification.classification_insights import generate_classification_insights
+from .classification.classification_story import generate_classification_story
 
 
 def ml_pipeline(df,target_col):
@@ -19,16 +29,30 @@ def ml_pipeline(df,target_col):
 
         trained_models = train_regression_models(X_train,y_train)
 
-        evaluation_results = evaluate_models(trained_models, X_test, y_test)
+        evaluation_results = evaluate_regression_models(trained_models, X_test, y_test)
 
-        best_model_info = select_best_model(evaluation_results)
+        best_model_info = select_best_model(evaluation_results,metric_name='rmse',higher_is_better= False)
 
         insights = generate_regression_insights(evaluation_results,best_model_info)
 
         story = generate_regression_story(insights)
 
+    elif problem_info["problem_type"] == 'classification':
+        
+        trained_models = train_classification_models(X_train,y_train)
+
+        evaluation_results = evaluate_classification_models(trained_models, X_test, y_test)
+
+        best_model_info = select_best_model(evaluation_results,metric_name='f1',higher_is_better= True)
+
+        insights = generate_classification_insights(evaluation_results, best_model_info)
+
+        story = generate_classification_story(insights)
+
     else:
-        raise NotImplementedError("Classification pipeline not implemented yet")
+        raise ValueError(
+            f"Unsupported problem type: {problem_info['problem_type']}"
+        )
 
     return {
         "problem_info": problem_info,

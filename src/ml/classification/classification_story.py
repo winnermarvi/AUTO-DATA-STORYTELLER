@@ -1,9 +1,8 @@
-
-def generate_regression_story(insights):
+def generate_classification_story(insights):
 
     story = []
 
-    story.append("REGRESSION MODEL PERFORMANCE")
+    story.append("CLASSIFICATION MODEL PERFORMANCE")
 
     for insight in insights:
 

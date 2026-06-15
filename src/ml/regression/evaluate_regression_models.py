@@ -1,6 +1,6 @@
 from sklearn.metrics import (mean_absolute_error,r2_score,root_mean_squared_error)
 
-def evaluate_models(trained_models,X_test,y_test):
+def evaluate_regression_models(trained_models,X_test,y_test):
 
     evaluation_results = {}
 

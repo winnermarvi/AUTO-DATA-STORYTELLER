@@ -1,23 +1,30 @@
 
 
-def select_best_model(evaluation_results):
+def select_best_model(evaluation_results,metric_name,higher_is_better):
 
-    best_rmse = None
+    best_metric_value = None
     best_model = None
     for model_name in evaluation_results:
 
-        if best_rmse is None:
-            best_rmse = evaluation_results[model_name]['rmse']
+        if best_metric_value is None:
+            best_metric_value = evaluation_results[model_name][metric_name]
             best_model = model_name
 
         else:
-            if best_rmse > evaluation_results[model_name]['rmse']:
+            if higher_is_better:
+                if best_metric_value < evaluation_results[model_name][metric_name]:
 
-                best_rmse = evaluation_results[model_name]['rmse']
-                best_model = model_name
+                    best_metric_value = evaluation_results[model_name][metric_name]
+                    best_model = model_name
+
+            else:
+                if best_metric_value > evaluation_results[model_name][metric_name]:
+
+                    best_metric_value = evaluation_results[model_name][metric_name]
+                    best_model = model_name
 
     return {
             "best_model" : best_model,
-            "Selection_metrics" : 'rmse',
-            "best_rmse" : best_rmse
+            "selection_metrics" : metric_name,
+            "best_metric_value" : best_metric_value
     }
