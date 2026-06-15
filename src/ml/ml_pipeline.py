@@ -1,6 +1,6 @@
 from .target_detector import detect_problem_type, get_features_target
-from .regression.train_models import train_regression_models
-from .regression.evaluate_models import evaluate_models
+from .regression.train_regressoin_models import train_regression_models
+from .regression.evaluate_regression_models import evaluate_models
 from .regression.regression_insights import generate_regression_insights
 from .regression.regression_story import generate_regression_story
 from .select_best_model import select_best_model
