@@ -8,21 +8,23 @@ import pandas as pd
 
 def main_pipeline(df,target_col):
 
-    print("Starting EDA...")
-    report = analyze_data(df)
-    print("EDA Complete")
 
-    print("Generating EDA insights...")
+    report = analyze_data(df)
+
+
+
     df_report = insight_pipeline(report)
-    print("EDA Insights Complete")
+
 
     target = df[target_col]
 
     features = df.drop(columns=[target_col])
 
-    print("Starting preprocessing...")
+
     processed_df = preprocess_data_pipeline(features)
-    print("Preprocessing Complete")
+
+    print(processed_df.select_dtypes(exclude=['number']).columns.tolist())
+
 
     processed_df[target_col] = target
 
@@ -35,9 +37,9 @@ def main_pipeline(df,target_col):
 
     #=================================================================================================
 
-    print("Starting ML pipeline...")
+
     ml_report = ml_pipeline(processed_df, target_col)
-    print("ML Pipeline Complete")
+
 
     return {
         "report": df_report['report'],

@@ -8,7 +8,7 @@ def encode_data(df):
     cols_to_drop = []
     #if no. of unique values are greter tha 90% we drop as they maybe identifiers(eg. name,email)
     for i in categorical_cols:
-        if (df[i].nunique() / df.shape[0]) > 0.9:
+        if (df[i].nunique() / df.shape[0]) > 0.9 or df[i].nunique() > 50:
             cols_to_drop.append(i)
 
     df = df.drop(columns = cols_to_drop)
@@ -17,6 +17,6 @@ def encode_data(df):
     categorical_cols = df.select_dtypes(exclude = ['number']).columns.to_list()
 
     #encoding function
-    df = pd.get_dummies(df, columns = categorical_cols, drop_first=True)
+    df = pd.get_dummies(df, columns = categorical_cols, dtype=int, drop_first=True)
 
     return df
