@@ -11,20 +11,15 @@ def main_pipeline(df,target_col):
 
     report = analyze_data(df)
 
-
-
     df_report = insight_pipeline(report)
-
 
     target = df[target_col]
 
     features = df.drop(columns=[target_col])
 
-
     processed_df = preprocess_data_pipeline(features)
 
     print(processed_df.select_dtypes(exclude=['number']).columns.tolist())
-
 
     processed_df[target_col] = target
 

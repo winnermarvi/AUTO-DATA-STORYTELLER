@@ -2,6 +2,8 @@ from sklearn.model_selection import train_test_split
 from .select_best_model import select_best_model
 from .target_detector import detect_problem_type, get_features_target
 
+from explainability.feature_importance import extract_feature_importance
+
 # ================== Regression files ======================================
 
 from .regression.train_regression_models import train_regression_models
@@ -44,6 +46,19 @@ def ml_pipeline(df,target_col):
         evaluation_results = evaluate_classification_models(trained_models, X_test, y_test)
 
         best_model_info = select_best_model(evaluation_results,metric_name='f1',higher_is_better= True)
+
+        #==================================
+        best_model = trained_models[
+            best_model_info["best_model"]
+        ]
+
+        importance = extract_feature_importance(
+            best_model,
+            X_train.columns
+        )
+
+        print(importance)
+        #=========================================
 
         insights = generate_classification_insights(evaluation_results, best_model_info)
 
