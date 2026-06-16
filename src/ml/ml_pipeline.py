@@ -7,6 +7,8 @@ from .target_detector import detect_problem_type, get_features_target
 from explainability.feature_importance import extract_feature_importance  
 from explainability.feature_importance_insights import genearte_feature_importance_insights
 from explainability.feature_importance_story import generate_feature_importance_story
+from explainability.recommendations import generate_recommendations
+from explainability.recommendations_story import generate_recommendation_story
 
 # ================== Regression files ======================================
 
@@ -71,6 +73,10 @@ def ml_pipeline(df,target_col):
 
     feature_importance_story = generate_feature_importance_story(feature_importance_insights)
 
+    recommendations = generate_recommendations(feature_importance, best_model, evaluation_results, problem_info)
+
+    recommendation_story = generate_recommendation_story(recommendations)
+
     
     
     return {
@@ -82,5 +88,8 @@ def ml_pipeline(df,target_col):
 
         "feature_importance" : feature_importance,
         "feature_importance_insights" : feature_importance_insights,
-        "feature_importance_story" : feature_importance_story
+        "feature_importance_story" : feature_importance_story,
+
+        "recommendations" : recommendations,
+        "recommendation_story" : recommendation_story
     }
