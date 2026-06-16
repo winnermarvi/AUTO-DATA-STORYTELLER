@@ -73,7 +73,7 @@ def ml_pipeline(df,target_col):
 
     feature_importance_story = generate_feature_importance_story(feature_importance_insights)
 
-    recommendations = generate_recommendations(feature_importance, best_model, evaluation_results, problem_info)
+    recommendations = generate_recommendations(feature_importance, best_model_info, evaluation_results, problem_info)
 
     recommendation_story = generate_recommendation_story(recommendations)
 

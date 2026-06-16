@@ -45,7 +45,14 @@ def main_pipeline(df,target_col):
         "evaluation_results": ml_report["evaluation_results"],
         "best_model_info": ml_report["best_model_info"],
         "ml_insights": ml_report["insights"],
-        "ml_story": ml_report["story"]
+        "ml_story": ml_report["story"],
+
+        "feature_importance" : ml_report["feature_importance"],
+        "feature_importance_insights" : ml_report["feature_importance_insights"],
+        "feature_importance_story" : ml_report["feature_importance_story"],
+
+        "recommendations" : ml_report["recommendations"],
+        "recommendation_story" : ml_report["recommendation_story"]
     }
 
 
@@ -73,3 +80,13 @@ print("\n=== EDA Story ===")
 
 for line in result["eda_story"]:
     print(line)
+
+print("\n=== Feature Importance Story ===")
+
+for line in result["feature_importance_story"]:
+    print(line)
+
+print("\n=== Recommendation Story ===")
+
+for line in result["recommendation_story"]:
+    print(line)  
