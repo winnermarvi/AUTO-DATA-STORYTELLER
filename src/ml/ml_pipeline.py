@@ -2,7 +2,11 @@ from sklearn.model_selection import train_test_split
 from .select_best_model import select_best_model
 from .target_detector import detect_problem_type, get_features_target
 
-from explainability.feature_importance import extract_feature_importance
+# ================== Explanabilty files ======================================
+
+from explainability.feature_importance import extract_feature_importance  
+from explainability.feature_importance_insights import genearte_feature_importance_insights
+from explainability.feature_importance_story import generate_feature_importance_story
 
 # ================== Regression files ======================================
 
@@ -47,19 +51,6 @@ def ml_pipeline(df,target_col):
 
         best_model_info = select_best_model(evaluation_results,metric_name='f1',higher_is_better= True)
 
-        #==================================
-        best_model = trained_models[
-            best_model_info["best_model"]
-        ]
-
-        importance = extract_feature_importance(
-            best_model,
-            X_train.columns
-        )
-
-        print(importance)
-        #=========================================
-
         insights = generate_classification_insights(evaluation_results, best_model_info)
 
         story = generate_classification_story(insights)
@@ -68,11 +59,28 @@ def ml_pipeline(df,target_col):
         raise ValueError(
             f"Unsupported problem type: {problem_info['problem_type']}"
         )
+    
 
+    #============== Feature importance ==========================
+
+    best_model = trained_models[best_model_info["best_model"]]
+
+    feature_importance = extract_feature_importance(best_model, X_train.columns)
+
+    feature_importance_insights = genearte_feature_importance_insights(feature_importance)
+
+    feature_importance_story = generate_feature_importance_story(feature_importance_insights)
+
+    
+    
     return {
         "problem_info": problem_info,
         "evaluation_results": evaluation_results,
         "best_model_info": best_model_info,
         "insights": insights,
-        "story": story
+        "story": story,
+
+        "feature_importance" : feature_importance,
+        "feature_importance_insights" : feature_importance_insights,
+        "feature_importance_story" : feature_importance_story
     }

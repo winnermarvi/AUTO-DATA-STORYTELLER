@@ -5,7 +5,7 @@ def genearte_feature_importance_insights(importance_pairs):
     for i,(feature,score) in enumerate(importance_pairs):
 
         if i == 0:
-            insights.append(f"{feature}Sex_male was the most influential feature.")
+            insights.append(f"{feature} was the most influential feature.")
 
         elif i == 1:
             insights.append(f"{feature} was among the strongest predictors.")
