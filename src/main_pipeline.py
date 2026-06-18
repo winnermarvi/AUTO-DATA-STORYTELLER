@@ -23,16 +23,6 @@ def main_pipeline(df,target_col):
 
     processed_df[target_col] = target
 
-    #===================temporary===================================================================
-    print("Shape:", processed_df.shape)
-
-    print("Missing Values:", processed_df.isnull().sum().sum())
-
-    print("Non-Numeric Columns:",len(processed_df.select_dtypes(exclude=['number']).columns))
-
-    #=================================================================================================
-
-
     ml_report = ml_pipeline(processed_df, target_col)
 
 
@@ -56,6 +46,7 @@ def main_pipeline(df,target_col):
     }
 
 
+""""
 df = pd.read_csv('data/titanic.csv')
 target_col = "Survived"
 
@@ -90,3 +81,5 @@ print("\n=== Recommendation Story ===")
 
 for line in result["recommendation_story"]:
     print(line)  
+
+"""

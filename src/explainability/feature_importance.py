@@ -6,7 +6,7 @@ def extract_feature_importance(model, feature_names, top_n=5):
 
         importance_scores = model.feature_importances_
 
-        importance_pairs = list(zip(feature_names,importance_scores))
+        importance_pairs = importance_pairs = [ (feature, float(score)) for feature, score in zip(feature_names, importance_scores) ]
 
     elif hasattr(model, 'coef_'):
 

@@ -5,13 +5,13 @@
   "numerical_summary": ?,      # stats for numeric columns
   "categorical_summary": ?     # stats for categorical columns
 }"""
-
+import pandas as pd
 
 def analyze_data(df):
     report = {}
 
     #shape of df
-    report["shape"] = {"rows" : df.shape[0],"columns" : df.shape[1]}
+    report["shape"] = {"rows" : int(df.shape[0]),"columns" : int(df.shape[1])}
 
     #columns names
     report["columns"] = df.columns.to_list()
@@ -50,9 +50,9 @@ def analyze_data(df):
             top_counts = 0
 
 
-        categorical_summary[i] = {"unique" : df[i].nunique(),
+        categorical_summary[i] = {"unique" : int(df[i].nunique()),
                                   "top" : top,
-                                  "top_count" : top_counts
+                                  "top_count" : int(top_counts)
                                   }
         
     report["categorical_summary"] = categorical_summary
