@@ -1,6 +1,6 @@
 
-from .insights_generator import generate_insights
-from .generate_story import generate_story
+from src.insights.insights_generator import generate_insights
+from src.insights.generate_story import generate_story
 
 
 def insight_pipeline(report):

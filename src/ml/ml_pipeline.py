@@ -1,28 +1,28 @@
 from sklearn.model_selection import train_test_split
-from .select_best_model import select_best_model
-from .target_detector import detect_problem_type, get_features_target
+from src.ml.select_best_model import select_best_model
+from src.ml.target_detector import detect_problem_type, get_features_target
 
 # ================== Explanabilty files ======================================
 
-from explainability.feature_importance import extract_feature_importance  
-from explainability.feature_importance_insights import genearte_feature_importance_insights
-from explainability.feature_importance_story import generate_feature_importance_story
-from explainability.recommendations import generate_recommendations
-from explainability.recommendations_story import generate_recommendation_story
+from src.explainability.feature_importance import extract_feature_importance  
+from src.explainability.feature_importance_insights import genearte_feature_importance_insights
+from src.explainability.feature_importance_story import generate_feature_importance_story
+from src.explainability.recommendations import generate_recommendations
+from src.explainability.recommendations_story import generate_recommendation_story
 
 # ================== Regression files ======================================
 
-from .regression.train_regression_models import train_regression_models
-from .regression.evaluate_regression_models import evaluate_regression_models
-from .regression.regression_insights import generate_regression_insights
-from .regression.regression_story import generate_regression_story
+from src.ml.regression.train_regression_models import train_regression_models
+from src.ml.regression.evaluate_regression_models import evaluate_regression_models
+from src.ml.regression.regression_insights import generate_regression_insights
+from src.ml.regression.regression_story import generate_regression_story
 
 # ================== Classification files ======================================
 
-from .classification.train_classification_models import train_classification_models
-from .classification.evaluate_classification_models import evaluate_classification_models
-from .classification.classification_insights import generate_classification_insights
-from .classification.classification_story import generate_classification_story
+from src.ml.classification.train_classification_models import train_classification_models
+from src.ml.classification.evaluate_classification_models import evaluate_classification_models
+from src.ml.classification.classification_insights import generate_classification_insights
+from src.ml.classification.classification_story import generate_classification_story
 
 
 def ml_pipeline(df,target_col):

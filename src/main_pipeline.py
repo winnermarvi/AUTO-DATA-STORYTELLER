@@ -1,7 +1,7 @@
-from eda.eda import analyze_data                                           # raw  df  -> report
-from insights.insight_pipeline import insight_pipeline                     # report -> insights
-from preprocessing.pipeline import preprocess_data_pipeline                # raw df -> preprocessed data
-from ml.ml_pipeline import ml_pipeline                                     # preprocessed data -> 
+from src.eda.eda import analyze_data                                           # raw  df  -> report
+from src.insights.insight_pipeline import insight_pipeline                     # report -> insights
+from src.preprocessing.pipeline import preprocess_data_pipeline                # raw df -> preprocessed data
+from src.ml.ml_pipeline import ml_pipeline                                     # preprocessed data -> 
 import pandas as pd
 
 
