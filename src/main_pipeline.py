@@ -5,6 +5,10 @@ from src.ml.ml_pipeline import ml_pipeline                                     #
 from src.llm.llm_pipeline import llm_pipeline
 import pandas as pd
 
+#=================== charts import ==========================
+from src.visualization.feature_importance_chart import plot_feature_importance
+from src.visualization.missing_value_chart import plot_missing_values
+
 
 
 def main_pipeline(df,target_col):
@@ -29,6 +33,10 @@ def main_pipeline(df,target_col):
         feature_importance_story= ml_report["feature_importance_story"],
         recommendation_story= ml_report["recommendation_story"]
     )
+
+    #================== charts =================================
+    plot_feature_importance(ml_report["feature_importance"])
+    plot_missing_values(report["missing_values"])
 
 
     return {
