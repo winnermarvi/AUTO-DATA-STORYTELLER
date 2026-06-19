@@ -1,16 +1,17 @@
 from fastapi import FastAPI,File,UploadFile,HTTPException,Form
 import pandas as pd
 from src.main_pipeline import main_pipeline
+from src.api.schemas import HealthResponse,AnalyzeResponse
 
 app = FastAPI()
 
-@app.get("/")
+@app.get("/", response_model=HealthResponse)
 def home():
     return {
         "message" : "Auto Data Story teller is running"
     }
 
-@app.post("/analyze")
+@app.post("/analyze",response_model=AnalyzeResponse)
 def analyze(
     file : UploadFile = File(),
     target_col : str = Form()
