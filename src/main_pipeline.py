@@ -5,6 +5,9 @@ from src.ml.ml_pipeline import ml_pipeline                                     #
 from src.llm.llm_pipeline import llm_pipeline
 import pandas as pd
 
+from src.reporting.report_builder import build_report
+from src.reporting.pdf_generator import generate_pdf
+
 #=================== charts import ==========================
 from src.visualization.feature_importance_chart import plot_feature_importance
 from src.visualization.missing_value_chart import plot_missing_values
@@ -66,6 +69,12 @@ df = pd.read_csv('data/titanic.csv')
 target_col = "Survived"
 
 result = main_pipeline(df, target_col)
+
+report = build_report(result)
+
+generate_pdf(report)
+
+print("PDF generated successfully!")
 
 """"
 
