@@ -1,5 +1,5 @@
-# test.py
+from .llm.narrative_generator import generate_narrative
 
-import pandas as pd
+result = generate_narrative("Explain machine learning in one sentence.")
 
-print("Pandas Loaded")
+print(result)

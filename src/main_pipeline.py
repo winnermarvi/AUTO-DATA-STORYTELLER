@@ -2,6 +2,7 @@ from src.eda.eda import analyze_data                                           #
 from src.insights.insight_pipeline import insight_pipeline                     # report -> insights
 from src.preprocessing.pipeline import preprocess_data_pipeline                # raw df -> preprocessed data
 from src.ml.ml_pipeline import ml_pipeline                                     # preprocessed data -> 
+from src.llm.llm_pipeline import llm_pipeline
 import pandas as pd
 
 
@@ -19,11 +20,15 @@ def main_pipeline(df,target_col):
 
     processed_df = preprocess_data_pipeline(features)
 
-    print(processed_df.select_dtypes(exclude=['number']).columns.tolist())
-
     processed_df[target_col] = target
 
     ml_report = ml_pipeline(processed_df, target_col)
+
+    llm_report = llm_pipeline(
+        ml_story= ml_report["story"],
+        feature_importance_story= ml_report["feature_importance_story"],
+        recommendation_story= ml_report["recommendation_story"]
+    )
 
 
     return {
@@ -42,16 +47,21 @@ def main_pipeline(df,target_col):
         "feature_importance_story" : ml_report["feature_importance_story"],
 
         "recommendations" : ml_report["recommendations"],
-        "recommendation_story" : ml_report["recommendation_story"]
+        "recommendation_story" : ml_report["recommendation_story"],
+
+        "llm_report" : llm_report
     }
 
 
-""""
+
 df = pd.read_csv('data/titanic.csv')
 target_col = "Survived"
 
 result = main_pipeline(df, target_col)
 
+print(result['llm_report']['narrative'])
+
+""""
 print("\n=== Problem Type ===")
 print(result["problem_info"])
 
