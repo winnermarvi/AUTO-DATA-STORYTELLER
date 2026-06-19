@@ -5,9 +5,10 @@ def llm_pipeline(ml_story,feature_importance_story,recommendation_story):
 
     prompt = build_prompt(ml_story, feature_importance_story, recommendation_story)
 
-    narrative = generate_narrative(prompt)
+    narrative_response = generate_narrative(prompt)
 
     return {
-        "prompt" : prompt,
-        "narrative" : narrative
+        "prompt": prompt,
+        "narrative": narrative_response["narrative"],
+        "model": narrative_response["model"]
     }

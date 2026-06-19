@@ -59,9 +59,10 @@ target_col = "Survived"
 
 result = main_pipeline(df, target_col)
 
+""""
+
 print(result['llm_report']['narrative'])
 
-""""
 print("\n=== Problem Type ===")
 print(result["problem_info"])
 
