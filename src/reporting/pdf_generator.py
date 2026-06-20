@@ -53,33 +53,37 @@ def generate_pdf(report, output_path="src/reports/report/final_report.pdf"):
 
     # Data Quality
     content.append(Paragraph("Data Quality", styles["Heading1"]))
-    content.append(
-        Paragraph(str(report["data_quality"]), styles["BodyText"])
-    )
+    content.append( Paragraph( report["data_quality"][1], styles["BodyText"] ))
+    content.append( Paragraph( report["data_quality"][3], styles["BodyText"] ))
+    content.append( Paragraph( report["data_quality"][4], styles["BodyText"] ))
+    content.append( Paragraph( report["data_quality"][-1], styles["BodyText"] ))
     content.append(Spacer(1, 12))
 
 
     # Model Findings
     content.append(Paragraph("Model Findings", styles["Heading1"]))
-    content.append(
-        Paragraph(str(report["model_findings"]), styles["BodyText"])
-    )
+    for item in report["model_findings"]:
+            content.append(
+                Paragraph(item, styles["BodyText"])
+            )
     content.append(Spacer(1, 12))
 
 
     # Key Drivers
     content.append(Paragraph("Key Drivers", styles["Heading1"]))
-    content.append(
-        Paragraph(str(report["key_drivers"]), styles["BodyText"])
-    )
+    for item in report["key_drivers"]:
+            content.append(
+                Paragraph(item, styles["BodyText"])
+            )
     content.append(Spacer(1, 12))
 
 
     # Recommendations
     content.append(Paragraph("Recommendations", styles["Heading1"]))
-    content.append(
-        Paragraph(str(report["recommendations"]), styles["BodyText"])
-    )
+    for item in report["recommendations"]:
+            content.append(
+                Paragraph(item, styles["BodyText"])
+            )
     content.append(Spacer(1, 20))
 
 

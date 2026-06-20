@@ -17,11 +17,14 @@ def build_prompt(ml_story,feature_importance_story,recommendation_story):
                 RECOMMENDATIONS:  
                 {"\n".join(recommendation_story[1:])}
 
-                Write:
-                1. Executive Summary
-                2. Key Drivers
-                3. Business Recommendations
+                Write a concise Executive Summary.
 
+                Summarize:
+                - overall model performance
+                - major business drivers
+                - business implications
+
+                Maximum 2-3 paragraphs.
                 Use clear business language.
                 Avoid technical jargon."""
     

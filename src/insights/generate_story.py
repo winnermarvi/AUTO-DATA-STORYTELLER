@@ -29,6 +29,5 @@ def generate_story(insights):
             else:
                 story.append("• No significant findings identified.")
 
-        story.append("")
 
     return story

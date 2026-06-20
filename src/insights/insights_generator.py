@@ -29,7 +29,7 @@ def generate_insights(report):
     if max_missing == 0:
         data_quality_insights.append(f"No missing values found in dataset")
     else:
-        data_quality_insights.append(f"Total missing values are {total_missing_value}")
+        data_quality_insights.append(f"{total_missing_value} missing values were identified.")
         data_quality_insights.append(f"Column {max_missing_val_col} has the highest missing values ({max_missing} values)")
 
     #numeric columns
