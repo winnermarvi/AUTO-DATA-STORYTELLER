@@ -34,15 +34,15 @@ def analyze(
     result = main_pipeline(df ,target_col)
 
     return {
-        "problem_type": result["problem_info"]["problem_type"],
-        "best_model": result["best_model_info"]["best_model"],
+        "problem_type": result['analysis']["problem_info"]["problem_type"],
+        "best_model": result['analysis']["best_model_info"]["best_model"],
 
-        "eda_story": "\n".join(result["eda_story"]),
-        "ml_story": "\n".join(result["ml_story"]),
-        "feature_importance_story": "\n".join(result["feature_importance_story"]),
-        "recommendation_story": "\n".join(result["recommendation_story"]),
+        "eda_story": "\n".join(result['analysis']["eda_story"]),
+        "ml_story": "\n".join(result['analysis']["ml_story"]),
+        "feature_importance_story": "\n".join(result['analysis']["feature_importance_story"]),
+        "recommendation_story": "\n".join(result['analysis']["recommendation_story"]),
 
-        "narrative": result["llm_report"]["narrative"]
+        "narrative": result['analysis']["llm_report"]["narrative"]
     }
 
 
