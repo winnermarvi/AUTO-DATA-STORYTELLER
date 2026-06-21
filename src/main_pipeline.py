@@ -42,7 +42,7 @@ def main_pipeline(df,target_col):
     plot_missing_values(report["missing_values"])
 
 
-    return {
+    result = {
         "report": df_report['report'],
         "eda_insights": df_report['insights'],
         "eda_story": df_report['story'],
@@ -63,20 +63,23 @@ def main_pipeline(df,target_col):
         "llm_report" : llm_report
     }
 
+    pdf_report = build_report(result)
 
+    generate_pdf(pdf_report)
+
+    return result
+
+
+
+
+""""
 
 df = pd.read_csv('data/titanic.csv')
 target_col = "Survived"
 
 result = main_pipeline(df, target_col)
 
-report = build_report(result)
-
-generate_pdf(report)
-
 print("PDF generated successfully!")
-
-""""
 
 print(result['llm_report']['narrative'])
 
