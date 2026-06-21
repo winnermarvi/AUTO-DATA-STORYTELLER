@@ -8,7 +8,7 @@ PageBreak
 
 from reportlab.lib.styles import getSampleStyleSheet
 
-def generate_pdf(report, output_path="src/reports/report/final_report.pdf"):
+def generate_pdf(report, output_path):
 
     doc = SimpleDocTemplate(output_path)
 
@@ -111,3 +111,5 @@ def generate_pdf(report, output_path="src/reports/report/final_report.pdf"):
     )
 
     doc.build(content)
+
+    return output_path

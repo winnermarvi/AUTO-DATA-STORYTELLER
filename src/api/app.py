@@ -1,4 +1,5 @@
 from fastapi import FastAPI,File,UploadFile,HTTPException,Form
+from fastapi.responses import FileResponse
 import pandas as pd
 from src.main_pipeline import main_pipeline
 from src.api.schemas import HealthResponse,AnalyzeResponse
@@ -43,3 +44,31 @@ def analyze(
 
         "narrative": result["llm_report"]["narrative"]
     }
+
+
+@app.post("/genrate-report")
+def generate_report(
+    file : UploadFile = File(),
+    target_col : str = Form()
+): 
+    if not file.filename.endswith('.csv'):
+        raise HTTPException(
+            status_code=400,
+            detail="Only CSV files are supported"
+        )
+    
+    df = pd.read_csv(file.file)
+    
+    if target_col not in df.columns:
+        raise HTTPException(
+            status_code=400,
+            detail="Target column not found"
+        )
+
+    result = main_pipeline(df ,target_col)
+
+    return FileResponse(
+        path=result['pdf_path'],
+        media_type="application/pdf",
+        filename="data_report.pdf"
+    )

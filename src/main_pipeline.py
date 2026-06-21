@@ -4,6 +4,7 @@ from src.preprocessing.pipeline import preprocess_data_pipeline                #
 from src.ml.ml_pipeline import ml_pipeline                                     # preprocessed data -> 
 from src.llm.llm_pipeline import llm_pipeline
 import pandas as pd
+from datetime import datetime
 
 from src.reporting.report_builder import build_report
 from src.reporting.pdf_generator import generate_pdf
@@ -42,6 +43,9 @@ def main_pipeline(df,target_col):
     plot_missing_values(report["missing_values"])
 
 
+    output_path = f"src/reports/report/report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.pdf"
+
+
     result = {
         "report": df_report['report'],
         "eda_insights": df_report['insights'],
@@ -65,9 +69,12 @@ def main_pipeline(df,target_col):
 
     pdf_report = build_report(result)
 
-    generate_pdf(pdf_report)
+    pdf_path = generate_pdf(pdf_report,output_path)
 
-    return result
+    return {
+        "analysis" : result,
+        "pdf_path" : pdf_path
+    }
 
 
 
@@ -78,6 +85,13 @@ df = pd.read_csv('data/titanic.csv')
 target_col = "Survived"
 
 result = main_pipeline(df, target_col)
+
+
+print(result['pdf_path'])
+
+import os
+
+print(os.path.exists(result["pdf_path"]))
 
 print("PDF generated successfully!")
 
