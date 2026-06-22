@@ -2,6 +2,18 @@ import streamlit as st
 import pandas as pd
 import requests
 
+if "result" not in st.session_state:
+    st.session_state.result = None
+
+if "df" not in st.session_state:
+    st.session_state.df = None
+
+if "target_col" not in st.session_state:
+    st.session_state.target_col = None
+
+if "analysis_complete" not in st.session_state:
+    st.session_state.analysis_complete = False
+
 st.title("AUTO DATA STORYTELLER")
 
 uploaded_file = st.file_uploader(
@@ -10,12 +22,18 @@ type=["csv"]
 )
 
 if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+    st.session_state.df = pd.read_csv(uploaded_file)
     st.success("File uploaded successfully!")
 
+df = st.session_state.df
+
+if df is not None:
     target_col = st.selectbox(
         "Select Target Column",
-        df.columns
+        df.columns,
+        index=list(df.columns).index(st.session_state.target_col)
+        if st.session_state.target_col in df.columns
+        else 0
     )
 
 files = None
@@ -45,6 +63,8 @@ if st.button("Generate Analysis"):
             )
 
             st.session_state.result = response.json()
+            st.session_state.target_col = target_col
+            st.session_state.analysis_complete = True
             result = st.session_state.result
 
             with st.expander("Executive Summary"):
@@ -97,3 +117,15 @@ if st.button("Generate Analysis"):
                     file_name="data_report.pdf",
                     mime="application/pdf"
                 )
+        
+        if st.button("🔄 Reset Analysis"):
+            for key in [
+                "result",
+                "df",
+                "target_col",
+                "analysis_complete"
+            ]:
+                if key in st.session_state:
+                    del st.session_state[key]
+
+            st.rerun()
