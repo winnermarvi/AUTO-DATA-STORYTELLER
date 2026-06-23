@@ -18,6 +18,10 @@ The goal is to bridge the gap between technical data science workflows and busin
 
 ---
 
+[![Watch Demo](assets/dashboard.png)](https://youtu.be/QFq0L-5y6w4?si=5JaoprXnpiD41y5p)
+
+---
+
 ## Features
 
 ### Automated EDA
