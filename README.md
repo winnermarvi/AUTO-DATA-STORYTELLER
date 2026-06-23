@@ -2,9 +2,9 @@
 
 ## Overview
 
-Auto Data Storyteller is an AI powered analytics platform that automatically transforms raw datasets into actionable business insights.
+Auto Data Storyteller is an AI-driven analytics platform that takes raw datasets and turns them into clear, actionable business intelligence — automatically.
 
-Instead of manually performing Exploratory Data Analysis (EDA), training machine learning models, generating reports, and creating dashboards, users can upload a dataset and receive:
+Traditional workflows require manually running EDA, selecting models, building reports, and assembling dashboards. With Auto Data Storyteller, users simply upload a dataset and get back:
 
 * Automated EDA
 * Machine Learning Model Selection
