@@ -1,25 +1,38 @@
 from google import genai
-from src.config import GEMINI_API_KEY
+from groq import Groq
+from src.config import GEMINI_API_KEY,GROQ_API_KEY
+
+from groq import Groq
+from src.config import GROQ_API_KEY
+
 
 def generate_narrative(prompt):
 
     try:
 
-        client = genai.Client(api_key= GEMINI_API_KEY)
-
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents= prompt
+        client = Groq(
+            api_key=GROQ_API_KEY
         )
-        
+
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.3
+        )
+
         return {
-            'narrative' : response.text,
-            'model' : 'gemini-2.5-flash'
+            "narrative": response.choices[0].message.content,
+            "model": "llama-3.3-70b-versatile"
         }
-    
+
     except Exception as e:
 
         return {
             "narrative": f"LLM generation failed: {str(e)}",
-            "model": "gemini-2.5-flash"
+            "model": "llama-3.3-70b-versatile"
         }

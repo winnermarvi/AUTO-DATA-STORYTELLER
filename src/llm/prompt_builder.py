@@ -1,31 +1,49 @@
 
 def build_prompt(ml_story,feature_importance_story,recommendation_story):
 
-    prompt = f"""Act as a senior business analyst.
+    prompt = f"""
+        You are a Senior Business Analyst preparing a report for executives and business stakeholders.
 
-                Translate the machine learning findings into business insights.
+        Your task is to convert machine learning findings into clear business insights.
 
-                Do not discuss algorithms, model names, or technical metrics unless necessary.
-                Focus on business impact, drivers, risks, and recommendations.
+        IMPORTANT RULES:
+        - Do NOT mention algorithms, model names, F1 scores, accuracy scores, or technical metrics unless absolutely necessary.
+        - Do NOT use technical data science terminology.
+        - Focus on business impact, opportunities, risks, and strategic actions.
+        - Write in a professional consulting-style tone.
+        - Make the insights actionable.
+        - Avoid bullet points.
+        - Write as a narrative report.
 
-                MODEL PERFORMANCE:
-                {"\n".join(ml_story[1:])}
+        MODEL FINDINGS:
+        {" ".join(ml_story[1:])}
 
-                KEY DRIVERS:
-                {"\n".join(feature_importance_story[1:])}
+        KEY DRIVERS:
+        {" ".join(feature_importance_story[1:])}
 
-                RECOMMENDATIONS:  
-                {"\n".join(recommendation_story[1:])}
+        RECOMMENDATIONS:
+        {" ".join(recommendation_story[1:])}
 
-                Write a concise Executive Summary.
+        Generate an Executive Summary with the following structure:
 
-                Summarize:
-                - overall model performance
-                - major business drivers
-                - business implications
+        1. Executive Summary
+        - Brief overview of findings
+        - Overall confidence in the analysis
 
-                Maximum 2-3 paragraphs.
-                Use clear business language.
-                Avoid technical jargon."""
-    
+        2. Key Business Drivers
+        - Explain the most important factors influencing outcomes
+        - Explain why they matter from a business perspective
+
+        3. Business Implications
+        - Describe potential impact on operations, customers, revenue, risk, or decision-making
+
+        4. Strategic Recommendations
+        - Provide practical next steps for business stakeholders
+
+        Length:
+        - 3 to 5 concise paragraphs
+        - Maximum 300 words
+
+        Use professional business language suitable for executives.
+        """
     return prompt
