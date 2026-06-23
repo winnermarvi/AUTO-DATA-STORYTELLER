@@ -45,6 +45,8 @@ def main_pipeline(df,target_col):
 
     output_path = f"src/reports/report/report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.pdf"
 
+    target_distribution = ( target.value_counts().to_dict())
+
 
     result = {
         "report": df_report['report'],
@@ -64,7 +66,8 @@ def main_pipeline(df,target_col):
         "recommendations" : ml_report["recommendations"],
         "recommendation_story" : ml_report["recommendation_story"],
 
-        "llm_report" : llm_report
+        "llm_report" : llm_report,
+        "target_distribution": target_distribution
     }
 
     pdf_report = build_report(result)

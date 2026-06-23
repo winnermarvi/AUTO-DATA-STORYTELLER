@@ -61,6 +61,33 @@ def analyze_data(df):
     #Creating correlation matrix of df
     report["correlation"] = df.select_dtypes(include=['number']).corr().to_dict()
 
+    #Calculationg health score
+
+    total_cells = report['shape']['rows'] * report['shape']['columns']
+
+    total_missing = df.isnull().sum().sum()
+
+    missing_pct = (total_missing / total_cells) * 100
+
+    duplicate_rows = df.duplicated().sum()
+
+    duplicate_pct = ( duplicate_rows / report['shape']['rows'] ) * 100
+
+    constant_cols = 0
+
+    for col in df.columns:
+        if df[col].nunique() <= 1:
+            constant_cols += 1
+
+    constant_pct = (constant_cols / report['shape']['columns']) * 100
+
+    health_score = ( 100 - missing_pct - duplicate_pct - constant_pct)
+
+    report["health_score"] = max(0, round(health_score, 1))
+
+    report["missing_pct"] = round(missing_pct, 1)
+
+    report["total_missing"] = int(total_missing)
 
     return report
 

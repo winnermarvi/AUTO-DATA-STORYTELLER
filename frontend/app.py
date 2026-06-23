@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import requests
 
+# ================= SESSION STATE =================
+
 if "result" not in st.session_state:
     st.session_state.result = None
 
@@ -14,7 +16,17 @@ if "target_col" not in st.session_state:
 if "analysis_complete" not in st.session_state:
     st.session_state.analysis_complete = False
 
+if "file_bytes" not in st.session_state:
+    st.session_state.file_bytes = None
+
+if "file_name" not in st.session_state:
+    st.session_state.file_name = None
+
+# ================= TITLE =================
+
 st.title("AUTO DATA STORYTELLER")
+
+# ================= FILE UPLOAD =================
 
 uploaded_file = st.file_uploader(
 "Upload CSV File",
@@ -23,109 +35,141 @@ type=["csv"]
 
 if uploaded_file is not None:
     st.session_state.df = pd.read_csv(uploaded_file)
+
+    st.session_state.file_bytes = uploaded_file.getvalue()
+
+    st.session_state.file_name = uploaded_file.name
+
     st.success("File uploaded successfully!")
 
 df = st.session_state.df
 
+# ================= TARGET COLUMN =================
+
 if df is not None:
+
     target_col = st.selectbox(
         "Select Target Column",
         df.columns,
-        index=list(df.columns).index(st.session_state.target_col)
-        if st.session_state.target_col in df.columns
-        else 0
+        index=(
+            list(df.columns).index(st.session_state.target_col)
+            if st.session_state.target_col in df.columns
+            else 0
+        )
     )
 
-files = None
-data = None
+# ================= ANALYSIS BUTTON =================
 
 if st.button("Generate Analysis"):
-    if uploaded_file is None:
-        st.error("NO Dataset found")
-    else:
-        with st.spinner("Generating Analysis....."):
+
+    with st.spinner("Generating Analysis....."):
+
+        files = {
+            "file": (
+                uploaded_file.name,
+                uploaded_file.getvalue(),
+                "text/csv"
+            )
+        }
+
+        data = {
+            "target_col": target_col
+        }
+
+        response = requests.post(
+            "http://127.0.0.1:8000/analyze",
+            files=files,
+            data=data
+        )
+
+        st.session_state.result = response.json()
+        st.session_state.target_col = target_col
+        st.session_state.analysis_complete = True
+
+
+# ================= DISPLAY RESULTS =================
+
+if st.session_state.result is not None:
+
+
+    result = st.session_state.result
+
+    with st.expander("Executive Summary"):
+        st.write(result.get("narrative"))
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric(
+            label="Problem Type",
+            value=result.get("problem_type", "N/A")
+        )
+
+    with col2:
+        st.metric(
+            label="Best Model",
+            value=result.get("best_model", "N/A")
+        )
+
+    st.subheader("Dataset Insights")
+    st.code(result.get("eda_story"))
+
+    st.subheader("Model Findings")
+    st.code(result.get("ml_story"))
+
+    st.subheader("Key Drivers")
+    st.code(result.get("feature_importance_story"))
+
+    st.subheader("Recommendations")
+    st.code(result.get("recommendation_story"))
+
+    
+    st.success("Analysis complete.")
+
+    # ================= PDF DOWNLOAD =================
+
+    if st.session_state.file_bytes is not None:
+
+        if (
+            st.session_state.file_bytes is not None
+            and st.session_state.file_name is not None
+        ):
+
             files = {
                 "file": (
-                    uploaded_file.name,
-                    uploaded_file.getvalue(),
+                    st.session_state.file_name,
+                    st.session_state.file_bytes,
                     "text/csv"
                 )
             }
 
-            data = {
-                "target_col": target_col
-            }
-
-            response = requests.post(
-                "http://127.0.0.1:8000/analyze",
-                files=files,
-                data=data
-            )
-
-            st.session_state.result = response.json()
-            st.session_state.target_col = target_col
-            st.session_state.analysis_complete = True
-            result = st.session_state.result
-
-            with st.expander("Executive Summary"):
-                st.write(result.get("narrative"))
-
-            col1, col2 = st.columns(2)
-            with col1:
-                st.metric(
-                    label="Problem Type", 
-                    value=result.get("problem_type", "N/A")
-                )
-                
-            with col2:
-                st.metric(
-                    label="Best Model", 
-                    value=result.get("best_model", "N/A")
-                )
-
-
-            st.subheader("Dataset Insights")
-
-            st.code(result.get("eda_story"))
-
-            st.subheader("Model Findings")
-            
-            st.code(result.get("ml_story"))
-
-            st.subheader("Key Drivers")
-
-            st.code(result.get("feature_importance_story"))
-
-            st.subheader("Recommendations")
-
-            st.code(result.get("recommendation_story"))
-
-        st.success("Analysis complete.")
+        data = {
+            "target_col": st.session_state.target_col
+        }
 
         pdf_response = requests.post(
-                "http://127.0.0.1:8000/genrate-report",
-                files=files,
-                data=data
-            )
-
-        file_bytes = pdf_response.content
-
+            "http://127.0.0.1:8000/genrate-report",
+            files=files,
+            data=data
+        )
 
         st.download_button(
-                    label="📥 Download PDF",
-                    data=file_bytes,
-                    file_name="data_report.pdf",
-                    mime="application/pdf"
-                )
-        
-        if st.button("🔄 Reset Analysis"):
-            for key in [
-                "result",
-                "df",
-                "target_col",
-                "analysis_complete"
-            ]:
-                if key in st.session_state:
-                    del st.session_state[key]
+            label="📥 Download PDF",
+            data=pdf_response.content,
+            file_name="data_report.pdf",
+            mime="application/pdf"
+        )
 
-            st.rerun()
+# ================= RESET BUTTON =================
+
+if st.session_state.result is not None:
+    if st.button("🔄 Reset Analysis"):
+
+        st.session_state.result = None
+        st.session_state.df = None
+        st.session_state.target_col = None
+        st.session_state.analysis_complete = False
+        st.session_state.file_bytes = None
+        st.session_state.file_name = None
+
+        st.rerun()
