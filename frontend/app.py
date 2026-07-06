@@ -22,6 +22,9 @@ if "file_bytes" not in st.session_state:
 if "file_name" not in st.session_state:
     st.session_state.file_name = None
 
+if "conversation_history" not in st.session_state:
+    st.session_state.coversation_history = []
+
 # ================= TITLE =================
 
 st.title("AUTO DATA STORYTELLER")
@@ -85,6 +88,7 @@ if st.button("Generate Analysis"):
         st.session_state.result = response.json()
         st.session_state.target_col = target_col
         st.session_state.analysis_complete = True
+        st.session_state.conversation_history = []
 
 
 # ================= DISPLAY RESULTS =================
@@ -148,7 +152,7 @@ if st.session_state.result is not None:
         }
 
         pdf_response = requests.post(
-            "http://127.0.0.1:8000/genrate-report",
+            "http://127.0.0.1:8000/generate-report",
             files=files,
             data=data
         )
@@ -171,5 +175,6 @@ if st.session_state.result is not None:
         st.session_state.analysis_complete = False
         st.session_state.file_bytes = None
         st.session_state.file_name = None
+        st.session_state.conversation_history = []
 
         st.rerun()

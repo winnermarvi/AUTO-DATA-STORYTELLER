@@ -1,9 +1,10 @@
 from fastapi import FastAPI,File,UploadFile,HTTPException,Form
 from fastapi.responses import FileResponse
 import pandas as pd
-from src.main_pipeline import main_pipeline
+#from src.main_pipeline import main_pipeline
 from src.services.pipeline_service import run_pipeline
-from src.api.schemas import HealthResponse,AnalyzeResponse
+from src.api.schemas import HealthResponse, AnalyzeResponse, ChatRequest, ChatResponse
+from src.services.chat_service import generate_chat_response
 
 app = FastAPI()
 
@@ -13,7 +14,7 @@ def home():
         "message" : "Auto Data Story teller is running"
     }
 
-@app.post("/analyze")
+@app.post("/analyze",response_model=AnalyzeResponse)
 def analyze(
     file : UploadFile = File(),
     target_col : str = Form()
@@ -65,7 +66,7 @@ def analyze(
 
 
 
-@app.post("/genrate-report")
+@app.post("/generate-report")
 def generate_report(
     file : UploadFile = File(),
     target_col : str = Form()
@@ -84,10 +85,27 @@ def generate_report(
             detail="Target column not found"
         )
 
-    result = main_pipeline(df ,target_col)
+    #result = main_pipeline(df ,target_col)
+    result = run_pipeline(df ,target_col)
 
     return FileResponse(
         path=result['pdf_path'],
         media_type="application/pdf",
         filename="data_report.pdf"
+    )
+
+@app.post("/chat", response_model=ChatResponse)
+def chat(request: ChatRequest):
+
+    response = generate_chat_response(
+        analysis=request.analysis,
+        question=request.question,
+        conversation_history=[
+            message.model_dump()
+            for message in request.conversation_history
+        ]
+    )
+
+    return ChatResponse(
+        response=response
     )
