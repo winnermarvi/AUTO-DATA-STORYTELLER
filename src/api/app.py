@@ -14,7 +14,7 @@ def home():
         "message" : "Auto Data Story teller is running"
     }
 
-@app.post("/analyze",response_model=AnalyzeResponse)
+@app.post("/analyze")
 def analyze(
     file : UploadFile = File(),
     target_col : str = Form()
@@ -107,5 +107,5 @@ def chat(request: ChatRequest):
     )
 
     return ChatResponse(
-        response=response
+        response=response['narrative']
     )

@@ -1,9 +1,5 @@
 def build_context(analysis):
 
-    eda = analysis['eda']
-    ml = analysis['ml']
-    llm = analysis['llm']
-
     context = f"""
         You are analyzing the following dataset.
 
@@ -11,31 +7,31 @@ def build_context(analysis):
         EXECUTIVE SUMMARY
         -------------------------
 
-        {llm["narrative"]}
+        {analysis["narrative"]}
 
         -------------------------
         DATA QUALITY / EDA FINDINGS
         -------------------------
 
-        {eda["eda_story"]}
+        {analysis["eda_story"]}
 
         -------------------------
         MODEL FINDINGS
         -------------------------
 
-        {ml["ml_story"]}
+        {analysis["ml_story"]}
 
         -------------------------
         FEATURE IMPORTANCE
         -------------------------
 
-        {ml["feature_importance_story"]}
+        {analysis["feature_importance_story"]}
 
         -------------------------
         BUSINESS RECOMMENDATIONS
         -------------------------
 
-        {ml["recommendation_story"]}
+        {analysis["recommendation_story"]}
         """
 
     return context.strip()

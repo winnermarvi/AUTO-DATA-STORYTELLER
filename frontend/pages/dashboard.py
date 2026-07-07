@@ -3,13 +3,15 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 
-st.title("AUTO DATA STORYTELLER")
+st.set_page_config(page_title="AI Business Analyst", layout="wide")
+
+st.title("🤖 AI Business Analyst")
 
 st.header("DASHBOARD")
 
-if st.session_state.get("result") is None:
-
-    st.error(f"Generate Analysis for Dashboard")
+if not st.session_state.analysis_complete:
+    st.warning("Please analyze a dataset first.")
+    st.stop()
 
 else:
 
