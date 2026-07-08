@@ -3,6 +3,7 @@ from src.services.ml_service import run_ml
 from src.services.llm_service import generate_summary
 from src.services.chart_service import generate_chart
 from src.services.report_service import generate_report
+import pandas as pd
 
 def run_pipeline(df,target_col):
 
@@ -33,3 +34,16 @@ def run_pipeline(df,target_col):
         "analysis" : analysis,
         "pdf_path" : pdf_path
     }
+
+df = pd.read_csv('data/titanic.csv')
+target_col = "Survived"
+
+
+result = run_pipeline(df,target_col)
+
+print("======================================================")
+print(result['analysis']['eda'])
+print("======================================================")
+print(result['analysis']['ml'])
+print("======================================================")
+print(result['analysis']['llm'])
