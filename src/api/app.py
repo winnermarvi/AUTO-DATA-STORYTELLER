@@ -37,7 +37,7 @@ def analyze(
     result = run_pipeline(df,target_col)
 
     return {
-        "analysis" : result,
+        "analysis" : result["analysis"],
         "problem_type": result['analysis']['ml']["problem_info"]["problem_type"],
         "best_model": result['analysis']['ml']["best_model_info"]["best_model"],
 

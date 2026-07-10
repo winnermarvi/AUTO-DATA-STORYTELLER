@@ -2,6 +2,13 @@ import streamlit as st
 import pandas as pd
 import requests
 
+
+# ================= TITLE =================
+
+st.set_page_config(page_title="AI Business Analyst", layout="wide")
+
+st.title("🤖 AI Business Analyst")
+
 # ================= SESSION STATE =================
 
 if "result" not in st.session_state:
@@ -24,10 +31,6 @@ if "file_name" not in st.session_state:
 
 if "conversation_history" not in st.session_state:
     st.session_state.coversation_history = []
-
-# ================= TITLE =================
-
-st.title("AUTO DATA STORYTELLER")
 
 # ================= FILE UPLOAD =================
 

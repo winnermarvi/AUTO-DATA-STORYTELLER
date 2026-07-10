@@ -35,15 +35,3 @@ def run_pipeline(df,target_col):
         "pdf_path" : pdf_path
     }
 
-df = pd.read_csv('data/titanic.csv')
-target_col = "Survived"
-
-
-result = run_pipeline(df,target_col)
-
-print("======================================================")
-print(result['analysis']['eda'])
-print("======================================================")
-print(result['analysis']['ml'])
-print("======================================================")
-print(result['analysis']['llm'])

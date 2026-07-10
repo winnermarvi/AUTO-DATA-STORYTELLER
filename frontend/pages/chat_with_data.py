@@ -64,7 +64,7 @@ if st.session_state["processing_question"]:
     with st.spinner("AI is thinking..."):
         try:
             payload = {
-                "analysis": st.session_state.get("result", {}),
+                "analysis": st.session_state.get("result", {}).get("analysis", {}),
                 "question": current_q,
                 "conversation_history": st.session_state["conversation_history"]
             }
