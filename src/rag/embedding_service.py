@@ -1,5 +1,9 @@
 from sentence_transformers import SentenceTransformer
 import copy
+from huggingface_hub import login
+from src.config import HF_TOKEN
+
+login(token=HF_TOKEN)
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
