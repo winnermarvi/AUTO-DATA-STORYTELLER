@@ -12,6 +12,7 @@ from src.analytics.column_matcher import match_columns
 from src.analytics.pandas_executor import execute_query
 from src.analytics.explanation_service import explain_result
 from src.analytics.validation import validate_intent
+from src.visualization.chart_service import generate_chart
 
 
 def generate_chat_response(df,analysis,question,conversation_history):
@@ -26,10 +27,13 @@ def generate_chat_response(df,analysis,question,conversation_history):
 
         if not validation["valid"]:
             return {
-                "narrative": validation["message"]
+                "narrative": validation["message"],
+                "chart" : None
             }
 
         result = execute_query(df,intent)
+
+        chart = generate_chart(intent, result)
 
         chat_response = explain_result(intent,result)
 
@@ -49,4 +53,9 @@ def generate_chat_response(df,analysis,question,conversation_history):
 
         chat_response = generate_narrative(chat_prompt)
 
-    return chat_response
+        chart = None
+
+    return {
+        "narrative": chat_response["narrative"],
+        "chart": chart
+    }

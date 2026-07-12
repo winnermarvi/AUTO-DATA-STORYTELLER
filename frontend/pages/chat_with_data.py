@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import requests
+import plotly.io as pio
 
 st.set_page_config(page_title="AI Business Analyst", layout="wide")
 
@@ -59,7 +60,7 @@ if st.session_state["processing_question"]:
     st.session_state["processing_question"] = None # Reset immediately to avoid infinite loops
     
     # Append the User prompt to the visible history
-    st.session_state["conversation_history"].append({"role": "user", "content": current_q})
+    st.session_state["conversation_history"].append({"role": "user", "content": current_q, "chart": None})
     
     with st.spinner("AI is thinking..."):
         try:
@@ -85,8 +86,9 @@ if st.session_state["processing_question"]:
             
             if chat_response.status_code == 200:
                 res_json = chat_response.json()
+                chart_json = res_json.get("chart")
                 ai_answer = res_json.get("response") or "⚠️ Empty response content received from API."
-                st.session_state["conversation_history"].append({"role": "assistant", "content": ai_answer})
+                st.session_state["conversation_history"].append({"role": "assistant", "content": ai_answer, "chart": chart_json})
             else:
                 st.error(f"Backend Error: {chat_response.status_code}")
         except Exception as e:
@@ -99,4 +101,14 @@ st.markdown("### 💬 Conversation")
 # 5. Render everything together flawlessly
 for msg in st.session_state["conversation_history"]:
     with st.chat_message(msg["role"]):
+        
         st.write(msg["content"])
+
+        if msg.get("chart"):
+
+            fig = pio.from_json(msg["chart"])
+
+            st.plotly_chart(
+                fig,
+                use_container_width=True
+            )

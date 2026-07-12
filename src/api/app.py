@@ -109,5 +109,6 @@ def chat(request: ChatRequest):
     )
 
     return ChatResponse(
-        response=response['narrative']
+        response=response["narrative"],
+        chart=response["chart"]
     )

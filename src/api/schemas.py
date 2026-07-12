@@ -46,3 +46,4 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     response: str
+    chart: str | None = None
