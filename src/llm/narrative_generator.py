@@ -1,7 +1,3 @@
-from google import genai
-from groq import Groq
-from src.config import GEMINI_API_KEY,GROQ_API_KEY
-
 from groq import Groq
 from src.config import GROQ_API_KEY
 
