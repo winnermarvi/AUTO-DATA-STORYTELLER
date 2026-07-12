@@ -97,18 +97,25 @@ def generate_report(
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
+    try:
+        response = generate_chat_response(
+            df = pd.DataFrame(request.df),
+            analysis=request.analysis,
+            question=request.question,
+            conversation_history=[
+                message.model_dump()
+                for message in request.conversation_history
+            ]
+        )
 
-    response = generate_chat_response(
-        df = pd.DataFrame(request.df),
-        analysis=request.analysis,
-        question=request.question,
-        conversation_history=[
-            message.model_dump()
-            for message in request.conversation_history
-        ]
-    )
+        return ChatResponse(
+            response=response["narrative"],
+            chart=response["chart"]
+        )
 
-    return ChatResponse(
-        response=response["narrative"],
-        chart=response["chart"]
-    )
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Chat generation failed: {str(e)}"
+        )
