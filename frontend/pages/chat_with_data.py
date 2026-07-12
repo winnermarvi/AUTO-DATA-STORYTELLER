@@ -39,13 +39,13 @@ grid_col1, grid_col2 = st.columns(2)
 # 2. Buttons ONLY set the next question to process
 with grid_col1:
     for i in range(5):
-        if st.button(f"[Q{i+1}] {suggested_questions[i]}", key=f"q_{i+1}", use_container_width=True):
+        if st.button(f"[Q{i+1}] {suggested_questions[i]}", key=f"q_{i+1}", width='stretch'):
             st.session_state["processing_question"] = suggested_questions[i]
             st.rerun()
 
 with grid_col2:
     for i in range(5, 10):
-        if st.button(f"[Q{i+1}] {suggested_questions[i]}", key=f"q_{i+1}", use_container_width=True):
+        if st.button(f"[Q{i+1}] {suggested_questions[i]}", key=f"q_{i+1}", width='stretch'):
             st.session_state["processing_question"] = suggested_questions[i]
             st.rerun()
 
@@ -60,7 +60,7 @@ if st.session_state["processing_question"]:
     st.session_state["processing_question"] = None # Reset immediately to avoid infinite loops
     
     # Append the User prompt to the visible history
-    st.session_state["conversation_history"].append({"role": "user", "content": current_q, "chart": None})
+    st.session_state["conversation_history"].append({"role": "user", "content": current_q})
     
     with st.spinner("AI is thinking..."):
         try:
@@ -110,5 +110,5 @@ for msg in st.session_state["conversation_history"]:
 
             st.plotly_chart(
                 fig,
-                use_container_width=True
+                width='stretch'
             )
