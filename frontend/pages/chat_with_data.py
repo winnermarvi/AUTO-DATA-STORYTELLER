@@ -18,7 +18,7 @@ suggested_questions = [
     "Explain this analysis as if I were presenting it to a business stakeholder."
 ]
 
-st.title("🤖 AI Business Analyst")
+st.title("💬 Chat with Data")
 
 if not st.session_state.get("analysis_complete", False):
     st.warning("Please analyze a dataset first.")
