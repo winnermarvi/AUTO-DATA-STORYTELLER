@@ -37,9 +37,11 @@ class ChatMessage(BaseModel):
 
 
 class ChatRequest(BaseModel):
+    df: List[Dict[str, Any]]
     analysis: Dict[str, Any]
     question: str
     conversation_history: List[ChatMessage]
+    
 
 
 class ChatResponse(BaseModel):

@@ -30,7 +30,7 @@ if "file_name" not in st.session_state:
     st.session_state.file_name = None
 
 if "conversation_history" not in st.session_state:
-    st.session_state.coversation_history = []
+    st.session_state.conversation_history = []
 
 # ================= FILE UPLOAD =================
 

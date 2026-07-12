@@ -19,7 +19,7 @@ suggested_questions = [
 
 st.title("🤖 AI Business Analyst")
 
-if not st.session_state.analysis_complete:
+if not st.session_state.get("analysis_complete", False):
     st.warning("Please analyze a dataset first.")
     st.stop()
 
@@ -63,8 +63,21 @@ if st.session_state["processing_question"]:
     
     with st.spinner("AI is thinking..."):
         try:
+
+            df = st.session_state.get("df")
+            if df is not None:
+                # .fillna(None) converts NaN/NaT values to Python None (JSON null)
+                # .astype(object) ensures pandas allows None values without converting them back to NaN
+                df_clean = df.astype(object).where(pd.notnull(df), None)
+                df_json = df_clean.to_dict(orient="records")
+            else:
+                df_json = []
+
+            analysis = st.session_state.get("result", {}).get("analysis", {})
+
             payload = {
-                "analysis": st.session_state.get("result", {}).get("analysis", {}),
+                "df": df_json,
+                "analysis": analysis,
                 "question": current_q,
                 "conversation_history": st.session_state["conversation_history"]
             }
@@ -78,8 +91,7 @@ if st.session_state["processing_question"]:
                 st.error(f"Backend Error: {chat_response.status_code}")
         except Exception as e:
             st.error(f"Connection failed: {e}")
-            
-    st.rerun()
+
 
 st.markdown("---")
 st.markdown("### 💬 Conversation")

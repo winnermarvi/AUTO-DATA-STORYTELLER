@@ -99,6 +99,7 @@ def generate_report(
 def chat(request: ChatRequest):
 
     response = generate_chat_response(
+        df = pd.DataFrame(request.df),
         analysis=request.analysis,
         question=request.question,
         conversation_history=[
