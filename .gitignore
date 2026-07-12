@@ -2,6 +2,7 @@ src/config.py
 src/reports
 
 # Byte-compiled / optimized / DLL files
+.env
 __pycache__/
 *.py[codz]
 *$py.class
