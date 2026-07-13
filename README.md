@@ -27,7 +27,7 @@ Everything happens inside a single workflow.
 
 ## Demo
 
-[![Watch Demo](assets/dashboard.png)](https://youtu.be/QFq0L-5y6w4?si=5JaoprXnpiD41y5p)
+[![Watch Demo](assets/dashboard.png)](https://youtu.be/3ayy6pWXqNM)
 ---
 
 # Features
