@@ -246,7 +246,7 @@ Current limitations:
 - UI is intentionally simple. The focus was on the backend architecture and AI workflow.
 - Very large datasets may slow down embedding generation and retrieval.
 
-There are plenty of ideas left for future versions, but I wanted this version to stay focused instead of becoming another endless feature list.
+I wanted this version to stay focused instead of becoming another endless feature list.
 
 ---
 
@@ -276,7 +276,6 @@ The goal wasn't to build another dashboard. It was to build something that behav
 - Code Reviews
 - Debugging Assistance
 
-**UI/UX Design:** *(To be added)*
 
 ## Author
 
