@@ -204,7 +204,7 @@ Generate a report containing:
 
 ---
 
-# Example Questions (of Titanic dataset)
+# Example Questions 
 
 ### AI Chat
 
