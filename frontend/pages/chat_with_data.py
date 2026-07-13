@@ -2,6 +2,12 @@ import streamlit as st
 import pandas as pd
 import requests
 import plotly.io as pio
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+BACKEND_URL = os.getenv("BACKEND_URL")
 
 st.set_page_config(page_title="AI Business Analyst", layout="wide")
 
@@ -82,7 +88,7 @@ if st.session_state["processing_question"]:
                 "question": current_q,
                 "conversation_history": st.session_state["conversation_history"]
             }
-            chat_response = requests.post("http://127.0.0.1:8000/chat", json=payload)
+            chat_response = requests.post(f"{BACKEND_URL}/chat", json=payload)
             
             if chat_response.status_code == 200:
                 res_json = chat_response.json()

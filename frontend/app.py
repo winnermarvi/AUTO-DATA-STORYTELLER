@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
 import requests
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+BACKEND_URL = os.getenv("BACKEND_URL")
 
 # Restored layout to wide to use the full width of your screen
 st.set_page_config(page_title="AI Business Analyst", layout="wide")
@@ -98,7 +104,7 @@ if df is not None:
             }
 
             response = requests.post(
-                "http://127.0.0.1:8000/analyze",
+                f"{BACKEND_URL}/analyze",
                 files=files,
                 data=data
             )
@@ -182,7 +188,7 @@ if st.session_state.result is not None:
             }
 
             pdf_response = requests.post(
-                "http://127.0.0.1:8000/generate-report",
+                f"{BACKEND_URL}/generate-report",
                 files=files,
                 data=data
             )
