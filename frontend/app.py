@@ -57,6 +57,9 @@ if "file_name" not in st.session_state:
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = []
 
+if "pdf_response" not in st.session_state:                      ##########
+    st.session_state.pdf_response = None
+
 # ================= FILE UPLOAD =================
 uploaded_file = st.file_uploader(
     "Upload Dataset",
@@ -187,15 +190,16 @@ if st.session_state.result is not None:
                 "target_col": st.session_state.target_col
             }
 
-            pdf_response = requests.post(
-                f"{BACKEND_URL}/generate-report",
-                files=files,
-                data=data
-            )
+            if st.session_state.pdf_response is None:
+                st.session_state.pdf_response = requests.post(
+                    f"{BACKEND_URL}/generate-report",
+                    files=files,
+                    data=data
+                )
 
             st.download_button(
                 label="📥 Download PDF Report",
-                data=pdf_response.content,
+                data=st.session_state.pdf_response.content,
                 file_name="data_report.pdf",
                 mime="application/pdf",
                 width='stretch'
@@ -210,4 +214,5 @@ if st.session_state.result is not None:
             st.session_state.file_bytes = None
             st.session_state.file_name = None
             st.session_state.conversation_history = []
+            st.session_state.pdf_response = None
             st.rerun()

@@ -64,7 +64,7 @@ else:
         
     with st.container(border=True):
         st.markdown("### 💡 Recommendations")
-        st.write(result.get("recommendation_story"))
+        st.code(result.get("recommendation_story"))
 
     st.markdown("---")
 
