@@ -136,7 +136,7 @@ Generate a report containing:
 - Recommendations
 
 <!-- Replace YOUR_USERNAME and YOUR_REPO with your actual GitHub details -->
-[![View Document](https://img.shields.io/badge/View_PDF-Interactive-blue?style=for-the-badge&logo=adobeacrobatreader)](assets/report_20260715_200615.pdf)
+[![View Document]](assets/report_20260715_200615.pdf)
 
 ---
 
